@@ -62,6 +62,8 @@ dependencies {
     testImplementation(libs.hilt.testing)
     kaptTest(libs.hilt.compiler)
     testImplementation(libs.junit)
+    testImplementation(libs.coroutine.mock)
+    testImplementation(libs.coroutine.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

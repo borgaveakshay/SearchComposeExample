@@ -1,9 +1,16 @@
 package com.assignment.achmeaassignment.data
 
-import java.lang.Exception
+sealed class ResultResource<T>(
+    val data: T?,
+    val errorMessage: String?,
+    open val isLoading: Boolean
+) {
+    data class Loading<T>(override val isLoading: Boolean) :
+        ResultResource<T>(data = null, errorMessage = null, isLoading = false)
 
-sealed class ResultResource<T> {
-    data object Loading: ResultResource<Nothing>()
-    data class Error<T>(val exception: Exception): ResultResource<T>()
-    data class Success<T>(val data: T): ResultResource<T>()
+    data class Error<T>(val exception: Exception) :
+        ResultResource<T>(data = null, errorMessage = exception.message, isLoading = false)
+
+    data class Success<T>(val successResponse: T) :
+        ResultResource<T>(data = successResponse, errorMessage = null, isLoading = false)
 }
