@@ -1,6 +1,6 @@
 package com.assignment.achmeaassignment.domain
 
-import com.assignment.achmeaassignment.data.ResultResource
+import com.assignment.achmeaassignment.data.common.ResultResource
 import kotlinx.coroutines.flow.Flow
 
 interface EmployersRepository {

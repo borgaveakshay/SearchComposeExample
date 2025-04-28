@@ -23,6 +23,23 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                "\"https://cba.kooijmans.nl/CBAEmployerservice.svc/rest\""
+            )
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+        debug {
+            isMinifyEnabled = false
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                "\"https://cba.kooijmans.nl/CBAEmployerservice.svc/rest\""
+            )
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -38,6 +55,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     kapt {
         correctErrorTypes = true

@@ -1,7 +1,7 @@
 package com.assignment.achmeaassignment.domain
 
 data class EmployerInfo(
-    val discountPercentage: String,
+    val discountPercentage: Int,
     val companyName: String,
     val location: String
 )

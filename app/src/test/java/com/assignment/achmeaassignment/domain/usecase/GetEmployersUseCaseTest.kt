@@ -1,6 +1,6 @@
 package com.assignment.achmeaassignment.domain.usecase
 
-import com.assignment.achmeaassignment.data.ResultResource
+import com.assignment.achmeaassignment.data.common.ResultResource
 import com.assignment.achmeaassignment.domain.EmployerInfo
 
 import com.assignment.achmeaassignment.domain.EmployersRepository

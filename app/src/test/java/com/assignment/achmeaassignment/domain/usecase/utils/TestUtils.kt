@@ -1,316 +1,322 @@
 package com.assignment.achmeaassignment.domain.usecase.utils
 
+import com.assignment.achmeaassignment.data.response.EmployersResponse
+import com.assignment.achmeaassignment.data.response.toEmployerInfo
 import com.assignment.achmeaassignment.domain.EmployerInfo
 import com.google.gson.Gson
 
-private const val mockJsonResponse = """
-    [
-  {
-    "DiscountPercentage": 8,
-    "EmployerID": 88219,
-    "Name": "&Samhoud Nederland B.V. Utrecht",
-    "Place": "UTRECHT"
-  },
-  {
-    "DiscountPercentage": 8,
-    "EmployerID": 87111,
-    "Name": "A. Oskam Verhuur en Grondverzet B.V. Moordrecht",
-    "Place": "MOORDRECHT"
-  },
-  {
-    "DiscountPercentage": 8,
-    "EmployerID": 93314,
-    "Name": "A.C.W. \"Samenwerking\" B.A. Amsterdam",
-    "Place": "AMSTERDAM"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 92330,
-    "Name": "a/d Amstel Architecten B.V. Amsterdam",
-    "Place": "AMSTERDAM"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 91738,
-    "Name": "AM Utrecht",
-    "Place": "UTRECHT"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 65674,
-    "Name": "AM GROEP Hoofddorp",
-    "Place": "HOOFDDORP"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 72786,
-    "Name": "Amarant Groep Tilburg",
-    "Place": "TILBURG"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 65662,
-    "Name": "Amaris Zorggroep Laren nh",
-    "Place": "LAREN NH"
-  },
-  {
-    "DiscountPercentage": 8,
-    "EmployerID": 48730,
-    "Name": "Amazing Apeldoorn",
-    "Place": "APELDOORN"
-  },
-  {
-    "DiscountPercentage": 8,
-    "EmployerID": 83527,
-    "Name": "Ambassade van de Verenigde Staten van Amerika 's-gravenhage",
-    "Place": "'S-GRAVENHAGE"
-  },
-  {
-    "DiscountPercentage": 8,
-    "EmployerID": 77197,
-    "Name": "Ambassade van Iran 's-gravenhage",
-    "Place": "'S-GRAVENHAGE"
-  },
-  {
-    "DiscountPercentage": 8,
-    "EmployerID": 86644,
-    "Name": "Ambiance International B.V. Nes gem heerenveen",
-    "Place": "NES GEM HEERENVEEN"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 44119,
-    "Name": "Ambiente Europe B.V. Beugen",
-    "Place": "BEUGEN"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 39777,
-    "Name": "Ambiq Hengelo ov",
-    "Place": "HENGELO OV"
-  },
-  {
-    "DiscountPercentage": 8,
-    "EmployerID": 80825,
-    "Name": "Ambrosius Transporten B.V. Hoogeveen",
-    "Place": "HOOGEVEEN"
-  },
-  {
-    "DiscountPercentage": 8,
-    "EmployerID": 86495,
-    "Name": "Ambulancedienst VZA International B.V. Waalwijk",
-    "Place": "WAALWIJK"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 46204,
-    "Name": "Ambulancedienst Zuid-Holland Zuid Papendrecht",
-    "Place": "PAPENDRECHT"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 67566,
-    "Name": "Ambulancezorg Amsterdam e.o.",
-    "Place": "AMSTERDAM"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 75811,
-    "Name": "Ambulancezorg Limburg Noord Venlo",
-    "Place": "VENLO"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 71044,
-    "Name": "AmbulanceZorg Noord en Oost Gelderland Elburg",
-    "Place": "ELBURG"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 42079,
-    "Name": "Ambulante Educatieve Dienst Leiderdorp",
-    "Place": "LEIDERDORP"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 43824,
-    "Name": "AMC Amsterdam",
-    "Place": "AMSTERDAM"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 86459,
-    "Name": "AMC Medical Research B.V. Amsterdam",
-    "Place": "AMSTERDAM"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 74623,
-    "Name": "Amca Hydraulic Fluid Power B.V. Ten post",
-    "Place": "TEN POST"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 44110,
-    "Name": "Amco B.V. Milsbeek",
-    "Place": "MILSBEEK"
-  },
-  {
-    "DiscountPercentage": 8,
-    "EmployerID": 34349,
-    "Name": "Amedes Buren gld",
-    "Place": "BUREN GLD"
-  },
-  {
-    "DiscountPercentage": 8,
-    "EmployerID": 75421,
-    "Name": "Amefa B.V. Apeldoorn",
-    "Place": "APELDOORN"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 79616,
-    "Name": "Amels B.V. Vlissingen",
-    "Place": "VLISSINGEN"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 93739,
-    "Name": "America Today B.V. Diemen",
-    "Place": "DIEMEN"
-  },
-  {
-    "DiscountPercentage": 8,
-    "EmployerID": 39726,
-    "Name": "American Medical Systems Europe Amsterdam",
-    "Place": "AMSTERDAM"
-  },
-  {
-    "DiscountPercentage": 8,
-    "EmployerID": 79580,
-    "Name": "Amerongen Kamphuis B.V. Apeldoorn",
-    "Place": "APELDOORN"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 52042,
-    "Name": "Ames Autobedrijf B.V. Dordrecht",
-    "Place": "DORDRECHT"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 90029,
-    "Name": "Ames Europe Enschede B.V.",
-    "Place": "ENSCHEDE"
-  },
-  {
-    "DiscountPercentage": 8,
-    "EmployerID": 76187,
-    "Name": "AMF Den Boer B.V. Gorinchem",
-    "Place": "GORINCHEM"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 19492,
-    "Name": "Amfors Groep/RWA Amersfoort",
-    "Place": "AMERSFOORT"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 38128,
-    "Name": "Amgen Europe B.V. Breda",
-    "Place": "BREDA"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 60488,
-    "Name": "AMI Lomm",
-    "Place": "LOMM"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 86277,
-    "Name": "Amie Ouderenzorg Bentveld",
-    "Place": "BENTVELD"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 92256,
-    "Name": "Amkor Zeefdruk B.V. Ede gld",
-    "Place": "EDE GLD"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 71177,
-    "Name": "AML Liften Amersfoort",
-    "Place": "AMERSFOORT"
-  },
-  {
-    "DiscountPercentage": 8,
-    "EmployerID": 34722,
-    "Name": "Ammerlaan Orchidieeën Schipluiden",
-    "Place": "SCHIPLUIDEN"
-  },
-  {
-    "DiscountPercentage": 8,
-    "EmployerID": 35844,
-    "Name": "Ammi-Zorg Arnhem",
-    "Place": "ARNHEM"
-  },
-  {
-    "DiscountPercentage": 8,
-    "EmployerID": 83137,
-    "Name": "AmniTec B.V. Rotterdam",
-    "Place": "ROTTERDAM"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 45712,
-    "Name": "Amo Groningen B.V.",
-    "Place": "GRONINGEN"
-  },
-  {
-    "DiscountPercentage": 8,
-    "EmployerID": 39260,
-    "Name": "Amorim Benelux B.V. Tholen",
-    "Place": "THOLEN"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 79429,
-    "Name": "AMOS Amsterdam",
-    "Place": "AMSTERDAM"
-  },
-  {
-    "DiscountPercentage": 8,
-    "EmployerID": 79736,
-    "Name": "Amos Milieutechniek B.V. Nieuwegein",
-    "Place": "NIEUWEGEIN"
-  },
-  {
-    "DiscountPercentage": 10,
-    "EmployerID": 80642,
-    "Name": "Amphia Ziekenhuis Breda",
-    "Place": "BREDA"
-  },
-  {
-    "DiscountPercentage": 8,
-    "EmployerID": 22987,
-    "Name": "AMS Bladel",
-    "Place": "BLADEL"
-  },
-  {
-    "DiscountPercentage": 8,
-    "EmployerID": 85713,
-    "Name": "AMS Sourcing B.V. Schiphol",
-    "Place": "SCHIPHOL"
-  }
-]
-"""
+private const val mockJsonResponse = "[\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 8,\n" +
+        "    \"EmployerID\": 88219,\n" +
+        "    \"Name\": \"&Samhoud Nederland B.V. Utrecht\",\n" +
+        "    \"Place\": \"UTRECHT\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 8,\n" +
+        "    \"EmployerID\": 87111,\n" +
+        "    \"Name\": \"A. Oskam Verhuur en Grondverzet B.V. Moordrecht\",\n" +
+        "    \"Place\": \"MOORDRECHT\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 8,\n" +
+        "    \"EmployerID\": 93314,\n" +
+        "    \"Name\": \"A.C.W. \\\"Samenwerking\\\" B.A. Amsterdam\",\n" +
+        "    \"Place\": \"AMSTERDAM\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 92330,\n" +
+        "    \"Name\": \"a/d Amstel Architecten B.V. Amsterdam\",\n" +
+        "    \"Place\": \"AMSTERDAM\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 91738,\n" +
+        "    \"Name\": \"AM Utrecht\",\n" +
+        "    \"Place\": \"UTRECHT\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 65674,\n" +
+        "    \"Name\": \"AM GROEP Hoofddorp\",\n" +
+        "    \"Place\": \"HOOFDDORP\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 72786,\n" +
+        "    \"Name\": \"Amarant Groep Tilburg\",\n" +
+        "    \"Place\": \"TILBURG\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 65662,\n" +
+        "    \"Name\": \"Amaris Zorggroep Laren nh\",\n" +
+        "    \"Place\": \"LAREN NH\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 8,\n" +
+        "    \"EmployerID\": 48730,\n" +
+        "    \"Name\": \"Amazing Apeldoorn\",\n" +
+        "    \"Place\": \"APELDOORN\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 8,\n" +
+        "    \"EmployerID\": 83527,\n" +
+        "    \"Name\": \"Ambassade van de Verenigde Staten van Amerika 's-gravenhage\",\n" +
+        "    \"Place\": \"'S-GRAVENHAGE\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 8,\n" +
+        "    \"EmployerID\": 77197,\n" +
+        "    \"Name\": \"Ambassade van Iran 's-gravenhage\",\n" +
+        "    \"Place\": \"'S-GRAVENHAGE\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 8,\n" +
+        "    \"EmployerID\": 86644,\n" +
+        "    \"Name\": \"Ambiance International B.V. Nes gem heerenveen\",\n" +
+        "    \"Place\": \"NES GEM HEERENVEEN\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 44119,\n" +
+        "    \"Name\": \"Ambiente Europe B.V. Beugen\",\n" +
+        "    \"Place\": \"BEUGEN\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 39777,\n" +
+        "    \"Name\": \"Ambiq Hengelo ov\",\n" +
+        "    \"Place\": \"HENGELO OV\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 8,\n" +
+        "    \"EmployerID\": 80825,\n" +
+        "    \"Name\": \"Ambrosius Transporten B.V. Hoogeveen\",\n" +
+        "    \"Place\": \"HOOGEVEEN\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 8,\n" +
+        "    \"EmployerID\": 86495,\n" +
+        "    \"Name\": \"Ambulancedienst VZA International B.V. Waalwijk\",\n" +
+        "    \"Place\": \"WAALWIJK\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 46204,\n" +
+        "    \"Name\": \"Ambulancedienst Zuid-Holland Zuid Papendrecht\",\n" +
+        "    \"Place\": \"PAPENDRECHT\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 67566,\n" +
+        "    \"Name\": \"Ambulancezorg Amsterdam e.o.\",\n" +
+        "    \"Place\": \"AMSTERDAM\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 75811,\n" +
+        "    \"Name\": \"Ambulancezorg Limburg Noord Venlo\",\n" +
+        "    \"Place\": \"VENLO\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 71044,\n" +
+        "    \"Name\": \"AmbulanceZorg Noord en Oost Gelderland Elburg\",\n" +
+        "    \"Place\": \"ELBURG\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 42079,\n" +
+        "    \"Name\": \"Ambulante Educatieve Dienst Leiderdorp\",\n" +
+        "    \"Place\": \"LEIDERDORP\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 43824,\n" +
+        "    \"Name\": \"AMC Amsterdam\",\n" +
+        "    \"Place\": \"AMSTERDAM\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 86459,\n" +
+        "    \"Name\": \"AMC Medical Research B.V. Amsterdam\",\n" +
+        "    \"Place\": \"AMSTERDAM\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 74623,\n" +
+        "    \"Name\": \"Amca Hydraulic Fluid Power B.V. Ten post\",\n" +
+        "    \"Place\": \"TEN POST\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 44110,\n" +
+        "    \"Name\": \"Amco B.V. Milsbeek\",\n" +
+        "    \"Place\": \"MILSBEEK\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 8,\n" +
+        "    \"EmployerID\": 34349,\n" +
+        "    \"Name\": \"Amedes Buren gld\",\n" +
+        "    \"Place\": \"BUREN GLD\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 8,\n" +
+        "    \"EmployerID\": 75421,\n" +
+        "    \"Name\": \"Amefa B.V. Apeldoorn\",\n" +
+        "    \"Place\": \"APELDOORN\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 79616,\n" +
+        "    \"Name\": \"Amels B.V. Vlissingen\",\n" +
+        "    \"Place\": \"VLISSINGEN\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 93739,\n" +
+        "    \"Name\": \"America Today B.V. Diemen\",\n" +
+        "    \"Place\": \"DIEMEN\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 8,\n" +
+        "    \"EmployerID\": 39726,\n" +
+        "    \"Name\": \"American Medical Systems Europe Amsterdam\",\n" +
+        "    \"Place\": \"AMSTERDAM\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 8,\n" +
+        "    \"EmployerID\": 79580,\n" +
+        "    \"Name\": \"Amerongen Kamphuis B.V. Apeldoorn\",\n" +
+        "    \"Place\": \"APELDOORN\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 52042,\n" +
+        "    \"Name\": \"Ames Autobedrijf B.V. Dordrecht\",\n" +
+        "    \"Place\": \"DORDRECHT\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 90029,\n" +
+        "    \"Name\": \"Ames Europe Enschede B.V.\",\n" +
+        "    \"Place\": \"ENSCHEDE\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 8,\n" +
+        "    \"EmployerID\": 76187,\n" +
+        "    \"Name\": \"AMF Den Boer B.V. Gorinchem\",\n" +
+        "    \"Place\": \"GORINCHEM\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 19492,\n" +
+        "    \"Name\": \"Amfors Groep/RWA Amersfoort\",\n" +
+        "    \"Place\": \"AMERSFOORT\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 38128,\n" +
+        "    \"Name\": \"Amgen Europe B.V. Breda\",\n" +
+        "    \"Place\": \"BREDA\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 60488,\n" +
+        "    \"Name\": \"AMI Lomm\",\n" +
+        "    \"Place\": \"LOMM\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 86277,\n" +
+        "    \"Name\": \"Amie Ouderenzorg Bentveld\",\n" +
+        "    \"Place\": \"BENTVELD\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 92256,\n" +
+        "    \"Name\": \"Amkor Zeefdruk B.V. Ede gld\",\n" +
+        "    \"Place\": \"EDE GLD\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 71177,\n" +
+        "    \"Name\": \"AML Liften Amersfoort\",\n" +
+        "    \"Place\": \"AMERSFOORT\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 8,\n" +
+        "    \"EmployerID\": 34722,\n" +
+        "    \"Name\": \"Ammerlaan Orchidieeën Schipluiden\",\n" +
+        "    \"Place\": \"SCHIPLUIDEN\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 8,\n" +
+        "    \"EmployerID\": 35844,\n" +
+        "    \"Name\": \"Ammi-Zorg Arnhem\",\n" +
+        "    \"Place\": \"ARNHEM\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 8,\n" +
+        "    \"EmployerID\": 83137,\n" +
+        "    \"Name\": \"AmniTec B.V. Rotterdam\",\n" +
+        "    \"Place\": \"ROTTERDAM\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 45712,\n" +
+        "    \"Name\": \"Amo Groningen B.V.\",\n" +
+        "    \"Place\": \"GRONINGEN\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 8,\n" +
+        "    \"EmployerID\": 39260,\n" +
+        "    \"Name\": \"Amorim Benelux B.V. Tholen\",\n" +
+        "    \"Place\": \"THOLEN\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 79429,\n" +
+        "    \"Name\": \"AMOS Amsterdam\",\n" +
+        "    \"Place\": \"AMSTERDAM\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 8,\n" +
+        "    \"EmployerID\": 79736,\n" +
+        "    \"Name\": \"Amos Milieutechniek B.V. Nieuwegein\",\n" +
+        "    \"Place\": \"NIEUWEGEIN\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 10,\n" +
+        "    \"EmployerID\": 80642,\n" +
+        "    \"Name\": \"Amphia Ziekenhuis Breda\",\n" +
+        "    \"Place\": \"BREDA\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 8,\n" +
+        "    \"EmployerID\": 22987,\n" +
+        "    \"Name\": \"AMS Bladel\",\n" +
+        "    \"Place\": \"BLADEL\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"DiscountPercentage\": 8,\n" +
+        "    \"EmployerID\": 85713,\n" +
+        "    \"Name\": \"AMS Sourcing B.V. Schiphol\",\n" +
+        "    \"Place\": \"SCHIPHOL\"\n" +
+        "  }\n" +
+        "]"
+
 
 fun getMockData(searchQuery: String): List<EmployerInfo> {
-    val employers = Gson().fromJson(mockJsonResponse, Array<EmployerInfo>::class.java).toList()
+    val employers =  Gson().fromJson(mockJsonResponse, EmployersResponse::class.java).toEmployerInfo()
     return employers.filter {
         searchQuery == it.companyName
     }
 }
+
+
+fun getMockNetworkData(): EmployersResponse =
+    Gson().fromJson(mockJsonResponse, EmployersResponse::class.java)
+
