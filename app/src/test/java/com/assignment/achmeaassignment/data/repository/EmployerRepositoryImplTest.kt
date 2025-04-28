@@ -1,15 +1,11 @@
 package com.assignment.achmeaassignment.data.repository
 
 import com.assignment.achmeaassignment.data.common.ResultResource
-import com.assignment.achmeaassignment.data.response.EmployersResponse
 import com.assignment.achmeaassignment.data.response.toEmployerInfo
 import com.assignment.achmeaassignment.data.service.EmployersService
-import com.assignment.achmeaassignment.domain.EmployerInfo
-import com.assignment.achmeaassignment.domain.usecase.utils.getMockData
-import com.assignment.achmeaassignment.domain.usecase.utils.getMockNetworkData
+import com.assignment.achmeaassignment.utils.getMockNetworkData
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test

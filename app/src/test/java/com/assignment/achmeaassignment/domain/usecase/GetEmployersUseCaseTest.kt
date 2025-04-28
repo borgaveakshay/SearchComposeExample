@@ -4,7 +4,7 @@ import com.assignment.achmeaassignment.data.common.ResultResource
 import com.assignment.achmeaassignment.domain.EmployerInfo
 
 import com.assignment.achmeaassignment.domain.EmployersRepository
-import com.assignment.achmeaassignment.domain.usecase.utils.getMockData
+import com.assignment.achmeaassignment.utils.getMockData
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flow

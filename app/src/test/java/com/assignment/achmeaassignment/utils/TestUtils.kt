@@ -1,4 +1,4 @@
-package com.assignment.achmeaassignment.domain.usecase.utils
+package com.assignment.achmeaassignment.utils
 
 import com.assignment.achmeaassignment.data.response.EmployersResponse
 import com.assignment.achmeaassignment.data.response.toEmployerInfo
@@ -312,7 +312,7 @@ private const val mockJsonResponse = "[\n" +
 fun getMockData(searchQuery: String): List<EmployerInfo> {
     val employers =  Gson().fromJson(mockJsonResponse, EmployersResponse::class.java).toEmployerInfo()
     return employers.filter {
-        searchQuery == it.companyName
+        it.companyName.contains(searchQuery, ignoreCase = true)
     }
 }
 

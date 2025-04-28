@@ -60,6 +60,11 @@ android {
     kapt {
         correctErrorTypes = true
     }
+    kotlin {
+        sourceSets.all {
+            languageSettings.enableLanguageFeature("ExplicitBackingFields")
+        }
+    }
 }
 
 dependencies {
@@ -76,6 +81,7 @@ dependencies {
     implementation(libs.coroutine.core)
     implementation(libs.http.client.retrofit)
     implementation(libs.http.gson.converter)
+    implementation(libs.androidx.lifecycle.viewmodel)
     kapt(libs.hilt.compiler)
     testImplementation(libs.hilt.testing)
     kaptTest(libs.hilt.compiler)
