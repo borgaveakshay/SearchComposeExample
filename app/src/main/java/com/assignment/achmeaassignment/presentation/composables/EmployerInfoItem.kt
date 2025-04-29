@@ -33,7 +33,8 @@ fun EmployerInfoItem(item: EmployerInfo, onClick: (item: EmployerInfo) -> Unit) 
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .clickable { onClick(item) },
         shape = RoundedCornerShape(12.dp),
         elevation = CardDefaults.cardElevation(4.dp),
         colors = CardDefaults.cardColors(
@@ -43,8 +44,7 @@ fun EmployerInfoItem(item: EmployerInfo, onClick: (item: EmployerInfo) -> Unit) 
     ) {
         Row(
             modifier = Modifier
-                .padding(16.dp)
-                .clickable { onClick(item) },
+                .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Discount badge

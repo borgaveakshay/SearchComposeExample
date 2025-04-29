@@ -7,12 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
@@ -35,47 +30,33 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AppTheme {
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    topBar = {
-                        CenterAlignedTopAppBar(
-                            title = {
-                                Text(
-                                    text = "Employer Search",
-                                    style = MaterialTheme.typography.headlineSmall
-                                )
-                            }
-                        )
-                    })
-                { innerPadding ->
-                    Column(modifier = Modifier.padding(innerPadding)) {
-                        val navController = rememberNavController()
-                        val employerViewModel: EmployerViewModel by viewModels()
-                        NavHost(
-                            navController = navController,
-                            startDestination = EmployerScreenRoute
-                        ) {
-                            composable<EmployerScreenRoute> {
-                                val employerState =
-                                    employerViewModel.employerSearchStateFlow.collectAsStateWithLifecycle()
-                                EmployerSearchScreen(
-                                    onSearchQueryChanged = {
-                                        employerViewModel.searchEmployers(it)
-                                    },
-                                    employerSearchState = employerState,
-                                    navController = navController
-                                )
-                            }
-                            composable<EmployerDetailsRoute> {
-                                val employerState =
-                                    employerViewModel.employerSearchStateFlow.collectAsStateWithLifecycle()
-                                val employerDetailsRoute = it.toRoute<EmployerDetailsRoute>()
-                                EmployerDetailsScreen(
-                                    navController = navController,
-                                    employerSearchState = employerState,
-                                    companyName = employerDetailsRoute.companyName
-                                )
-                            }
+                Column(modifier = Modifier.fillMaxSize()) {
+                    val navController = rememberNavController()
+                    val employerViewModel: EmployerViewModel by viewModels()
+                    NavHost(
+                        navController = navController,
+                        startDestination = EmployerScreenRoute
+                    ) {
+                        composable<EmployerScreenRoute> {
+                            val employerState =
+                                employerViewModel.employerSearchStateFlow.collectAsStateWithLifecycle()
+                            EmployerSearchScreen(
+                                onSearchQueryChanged = {
+                                    employerViewModel.searchEmployers(it)
+                                },
+                                employerSearchState = employerState,
+                                navController = navController
+                            )
+                        }
+                        composable<EmployerDetailsRoute> {
+                            val employerState =
+                                employerViewModel.employerSearchStateFlow.collectAsStateWithLifecycle()
+                            val employerDetailsRoute = it.toRoute<EmployerDetailsRoute>()
+                            EmployerDetailsScreen(
+                                navController = navController,
+                                employerSearchState = employerState,
+                                companyName = employerDetailsRoute.companyName
+                            )
                         }
                     }
                 }
