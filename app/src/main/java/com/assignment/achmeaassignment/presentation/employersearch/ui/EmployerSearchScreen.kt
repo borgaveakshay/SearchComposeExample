@@ -20,6 +20,7 @@ import com.assignment.achmeaassignment.domain.EmployerInfo
 import com.assignment.achmeaassignment.presentation.composables.EmployerSearchField
 import com.assignment.achmeaassignment.presentation.composables.EmployersList
 import com.assignment.achmeaassignment.presentation.employersearch.states.EmployerSearchState
+import com.assignment.achmeaassignment.presentation.employersearch.viewmodel.EmployerViewModel
 import com.example.compose.AppTheme
 
 @Composable

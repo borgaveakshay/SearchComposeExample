@@ -3,7 +3,6 @@ package com.assignment.achmeaassignment.presentation.composables
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -13,7 +12,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.assignment.achmeaassignment.domain.EmployerInfo
 import com.example.compose.AppTheme
 
@@ -23,9 +21,8 @@ fun EmployersList(employersList: List<EmployerInfo>) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentHeight(),
-
-        ) {
+            .wrapContentHeight()
+    ) {
         LazyColumn() {
             items(items = employers.value, key = { item -> item.companyName }) {
                 EmployerInfoItem(it)

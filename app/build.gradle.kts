@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt.plugin)
+    alias(libs.plugins.kotlin.serialization)
     kotlin("kapt")
 }
 
@@ -26,7 +27,7 @@ android {
             buildConfigField(
                 "String",
                 "BASE_URL",
-                "\"https://cba.kooijmans.nl/CBAEmployerservice.svc/rest\""
+                "\"https://cba.kooijmans.nl/CBAEmployerservice.svc/rest/\""
             )
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -38,7 +39,7 @@ android {
             buildConfigField(
                 "String",
                 "BASE_URL",
-                "\"https://cba.kooijmans.nl/CBAEmployerservice.svc/rest\""
+                "\"https://cba.kooijmans.nl/CBAEmployerservice.svc/rest/\""
             )
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -83,6 +84,8 @@ dependencies {
     implementation(libs.http.gson.converter)
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.compose.ui.google.fonts)
+    implementation(libs.androidx.compose.navigation)
+    implementation(libs.kotlin.serialization)
     kapt(libs.hilt.compiler)
     testImplementation(libs.hilt.testing)
     kaptTest(libs.hilt.compiler)
