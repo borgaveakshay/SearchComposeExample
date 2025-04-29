@@ -22,14 +22,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.assignment.achmeaassignment.domain.EmployerInfo
 import com.assignment.achmeaassignment.presentation.composables.EmployerSearchField
 import com.assignment.achmeaassignment.presentation.composables.EmployersList
 import com.assignment.achmeaassignment.presentation.employersearch.states.EmployerSearchState
+import com.assignment.achmeaassignment.presentation.routes.EmployerDetailsRoute
 import com.example.compose.AppTheme
 
 @Composable
 fun EmployerSearchScreen(
+    navController: NavController,
     onSearchQueryChanged: (String) -> Unit,
     employerSearchState: State<EmployerSearchState>
 ) {
@@ -47,7 +51,13 @@ fun EmployerSearchScreen(
                 Column {
                     EmployersList(
                         employersList = data
-                    )
+                    ) { employerInfo ->
+                        navController.navigate(
+                            EmployerDetailsRoute(
+                                companyName = employerInfo.companyName
+                            )
+                        )
+                    }
                 }
             } else {
                 Column(
@@ -97,7 +107,8 @@ fun EmployerSearchScreenNightPreview() {
                             data = null
                         )
                     )
-                }
+                },
+                navController = rememberNavController()
             )
         }
     }
@@ -130,7 +141,8 @@ fun EmployerSearchScreenPreview() {
                             )
                         )
                     )
-                }
+                },
+                navController = rememberNavController()
             )
         }
     }

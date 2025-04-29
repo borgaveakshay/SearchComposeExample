@@ -18,8 +18,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import com.assignment.achmeaassignment.presentation.employerdetails.EmployerDetailsScreen
 import com.assignment.achmeaassignment.presentation.employersearch.ui.EmployerSearchScreen
 import com.assignment.achmeaassignment.presentation.employersearch.viewmodel.EmployerViewModel
+import com.assignment.achmeaassignment.presentation.routes.EmployerDetailsRoute
 import com.assignment.achmeaassignment.presentation.routes.EmployerScreenRoute
 import com.example.compose.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -59,7 +62,18 @@ class MainActivity : ComponentActivity() {
                                     onSearchQueryChanged = {
                                         employerViewModel.searchEmployers(it)
                                     },
-                                    employerSearchState = employerState
+                                    employerSearchState = employerState,
+                                    navController = navController
+                                )
+                            }
+                            composable<EmployerDetailsRoute> {
+                                val employerState =
+                                    employerViewModel.employerSearchStateFlow.collectAsStateWithLifecycle()
+                                val employerDetailsRoute = it.toRoute<EmployerDetailsRoute>()
+                                EmployerDetailsScreen(
+                                    navController = navController,
+                                    employerSearchState = employerState,
+                                    companyName = employerDetailsRoute.companyName
                                 )
                             }
                         }

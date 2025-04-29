@@ -68,18 +68,9 @@ fun EmployerSearchField(onQueryChanged: (String) -> Unit) {
 }
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-fun EmployerSearchNightFieldPreview() {
-    AppTheme {
-        Surface {
-            EmployerSearchField(onQueryChanged = {})
-        }
-    }
-}
-
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
-fun EmployerSearchFieldPreview() {
+fun EmployerSearchNightFieldPreview() {
     AppTheme {
         Surface {
             EmployerSearchField(onQueryChanged = {})

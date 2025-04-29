@@ -2,6 +2,7 @@ package com.assignment.achmeaassignment.presentation.composables
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,7 +29,7 @@ import com.assignment.achmeaassignment.domain.EmployerInfo
 import com.example.compose.AppTheme
 
 @Composable
-fun EmployerInfoItem(item: EmployerInfo) {
+fun EmployerInfoItem(item: EmployerInfo, onClick: (item: EmployerInfo) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -37,12 +38,13 @@ fun EmployerInfoItem(item: EmployerInfo) {
         elevation = CardDefaults.cardElevation(4.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
-            contentColor = MaterialTheme.colorScheme.onSurface)
-        
+            contentColor = MaterialTheme.colorScheme.onSurface
+        )
     ) {
         Row(
             modifier = Modifier
-                .padding(16.dp),
+                .padding(16.dp)
+                .clickable { onClick(item) },
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Discount badge
@@ -79,6 +81,7 @@ fun EmployerInfoItem(item: EmployerInfo) {
 }
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 fun EmployerInfoItemNightPreview() {
     AppTheme {
@@ -88,23 +91,8 @@ fun EmployerInfoItemNightPreview() {
                     companyName = "Company Name",
                     location = "Location",
                     discountPercentage = 20
-                )
-            )
-        }
-    }
-
-}
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
-@Composable
-fun EmployerInfoItemPreview() {
-    AppTheme {
-        Surface {
-            EmployerInfoItem(
-                item = EmployerInfo(
-                    companyName = "Company Name",
-                    location = "Location",
-                    discountPercentage = 20
-                )
+                ),
+                onClick = {}
             )
         }
     }
