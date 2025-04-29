@@ -62,6 +62,8 @@ fun EmployerSearchField(onQueryChanged: (String) -> Unit) {
                 disabledIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                cursorColor = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         )
     }
