@@ -33,13 +33,13 @@ class MainActivity : ComponentActivity() {
                 Column(modifier = Modifier.fillMaxSize()) {
                     val navController = rememberNavController()
                     val employerViewModel: EmployerViewModel by viewModels()
+                    val employerState =
+                        employerViewModel.employerSearchStateFlow.collectAsStateWithLifecycle()
                     NavHost(
                         navController = navController,
                         startDestination = EmployerScreenRoute
                     ) {
                         composable<EmployerScreenRoute> {
-                            val employerState =
-                                employerViewModel.employerSearchStateFlow.collectAsStateWithLifecycle()
                             EmployerSearchScreen(
                                 onSearchQueryChanged = {
                                     employerViewModel.searchEmployers(it)
@@ -49,13 +49,12 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable<EmployerDetailsRoute> {
-                            val employerState =
-                                employerViewModel.employerSearchStateFlow.collectAsStateWithLifecycle()
                             val employerDetailsRoute = it.toRoute<EmployerDetailsRoute>()
+                            val employerInfo =
+                                employerState.value.data?.first { it.companyName == employerDetailsRoute.companyName }
                             EmployerDetailsScreen(
                                 navController = navController,
-                                employerSearchState = employerState,
-                                companyName = employerDetailsRoute.companyName
+                                employerInfo = employerInfo!!
                             )
                         }
                     }
