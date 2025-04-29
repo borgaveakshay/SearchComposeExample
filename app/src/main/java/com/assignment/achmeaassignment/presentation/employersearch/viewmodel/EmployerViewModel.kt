@@ -27,7 +27,9 @@ class EmployerViewModel @Inject constructor(
                     employerSearchStateFlow.update {
                         it.copy(
                             isError = true,
-                            errorMessage = response.errorMessage
+                            errorMessage = response.errorMessage,
+                            data = null,
+                            isLoading = false
                         )
                     }
                 }
@@ -35,7 +37,10 @@ class EmployerViewModel @Inject constructor(
                 is ResultResource.Loading -> {
                     employerSearchStateFlow.update {
                         it.copy(
-                            isLoading = true
+                            isLoading = true,
+                            isError = false,
+                            data = null,
+                            errorMessage = null
                         )
                     }
                 }
@@ -43,7 +48,10 @@ class EmployerViewModel @Inject constructor(
                 is ResultResource.Success -> {
                     employerSearchStateFlow.update {
                         it.copy(
-                            data = response.data
+                            data = response.data,
+                            isLoading = false,
+                            isError = false,
+                            errorMessage = null
                         )
                     }
                 }

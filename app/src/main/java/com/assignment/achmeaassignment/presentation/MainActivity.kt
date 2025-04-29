@@ -56,8 +56,10 @@ class MainActivity : ComponentActivity() {
                                 val employerState =
                                     employerViewModel.employerSearchStateFlow.collectAsStateWithLifecycle()
                                 EmployerSearchScreen(
-                                    onSearchQueryChanged = { employerViewModel.searchEmployers(it) },
-                                    employerSearchState = employerState.value
+                                    onSearchQueryChanged = {
+                                        employerViewModel.searchEmployers(it)
+                                    },
+                                    employerSearchState = employerState
                                 )
                             }
                         }

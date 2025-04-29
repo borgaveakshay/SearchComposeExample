@@ -20,18 +20,19 @@ class EmployerRepositoryImpl @Inject constructor(
 
     override suspend fun getSearchedEmployers(searchQuery: String): Flow<ResultResource<List<EmployerInfo>>> =
         flow<ResultResource<List<EmployerInfo>>> {
+            val result = employersService.getEmployers(
+                searchQuery = searchQuery,
+                maxRows = 100
+            )?.toEmployerInfo() ?: emptyList()
             emit(
                 ResultResource.Success(
-                    successResponse = employersService.getEmployers(
-                        searchQuery = searchQuery,
-                        maxRows = 100
-                    )?.toEmployerInfo() ?: emptyList()
+                    successResponse = result
                 )
             )
         }.onStart {
             emit(ResultResource.Loading(isLoading = true))
         }.catch { exception ->
             emit(ResultResource.Error(exception = exception))
-        }.debounce(2000L)
+        }.debounce(1000L)
 
 }

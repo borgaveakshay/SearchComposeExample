@@ -17,14 +17,13 @@ import com.example.compose.AppTheme
 
 @Composable
 fun EmployersList(employersList: List<EmployerInfo>) {
-    val employers = rememberSaveable { mutableStateOf(employersList) }
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
     ) {
         LazyColumn() {
-            items(items = employers.value, key = { item -> item.companyName }) {
+            items(items = employersList, key = { item -> item.companyName }) {
                 EmployerInfoItem(it)
             }
         }

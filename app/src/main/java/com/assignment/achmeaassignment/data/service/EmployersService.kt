@@ -5,7 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface EmployersService {
-    @GET("rest/employers")
+    @GET("employers")
     suspend fun getEmployers(
         @Query("filter") searchQuery: String,
         @Query("maxRows") maxRows: Int

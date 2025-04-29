@@ -17,7 +17,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
@@ -27,7 +27,7 @@ import com.example.compose.AppTheme
 
 @Composable
 fun EmployerSearchField(onQueryChanged: (String) -> Unit) {
-    val searchQuery = remember { mutableStateOf("") }
+    val searchQuery = rememberSaveable { mutableStateOf("") }
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -46,7 +46,7 @@ fun EmployerSearchField(onQueryChanged: (String) -> Unit) {
             value = searchQuery.value,
             onValueChange = {
                 searchQuery.value = it
-                onQueryChanged(it)
+                onQueryChanged(searchQuery.value)
             },
             label = { Text("Search Employers") },
             modifier = Modifier.fillMaxWidth(),
@@ -61,6 +61,7 @@ fun EmployerSearchField(onQueryChanged: (String) -> Unit) {
                 errorIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
+                unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
             )
         )
     }
