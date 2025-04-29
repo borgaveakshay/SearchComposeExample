@@ -1,4 +1,4 @@
-# AchmeaAssignment - Android App
+# Search Employer Example - Android App
 
 This is an Android application built using Kotlin, Jetpack Compose, Hilt, and other modern Android development practices.
 
