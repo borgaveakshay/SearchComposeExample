@@ -82,6 +82,7 @@ dependencies {
     implementation(libs.http.client.retrofit)
     implementation(libs.http.gson.converter)
     implementation(libs.androidx.lifecycle.viewmodel)
+    implementation(libs.androidx.compose.ui.google.fonts)
     kapt(libs.hilt.compiler)
     testImplementation(libs.hilt.testing)
     kaptTest(libs.hilt.compiler)

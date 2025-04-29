@@ -27,7 +27,7 @@ class EmployerViewModel @Inject constructor(
                     employerSearchStateFlow.update {
                         it.copy(
                             isError = true,
-                            errorMessage = response?.errorMessage
+                            errorMessage = response.errorMessage
                         )
                     }
                 }
@@ -43,7 +43,7 @@ class EmployerViewModel @Inject constructor(
                 is ResultResource.Success -> {
                     employerSearchStateFlow.update {
                         it.copy(
-                            data = response?.data
+                            data = response.data
                         )
                     }
                 }
