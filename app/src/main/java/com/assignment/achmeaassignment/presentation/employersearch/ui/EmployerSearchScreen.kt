@@ -58,23 +58,34 @@ fun EmployerSearchScreen(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .padding(10.dp, top = 20.dp)
+                .padding(10.dp)
         ) {
             EmployerSearchField { searchQuery ->
                 onSearchQueryChanged(searchQuery)
             }
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(20.dp))
             employerSearchState.value.apply {
                 if (!isError && !isLoading && data != null) {
-                    Column {
-                        EmployersList(
-                            employersList = data
-                        ) { employerInfo ->
-                            navController.navigate(
-                                EmployerDetailsRoute(
-                                    companyName = employerInfo.companyName
-                                )
+                    when {
+                        data.isEmpty() -> {
+                            Text(
+                                text = "No employers found",
+                                style = MaterialTheme.typography.bodyLarge,
+                                modifier = Modifier.align(Alignment.CenterHorizontally),
+                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
                             )
+                        }
+
+                        else -> {
+                            EmployersList(
+                                employersList = data
+                            ) { employerInfo ->
+                                navController.navigate(
+                                    EmployerDetailsRoute(
+                                        companyName = employerInfo.companyName
+                                    )
+                                )
+                            }
                         }
                     }
                 } else {
@@ -102,6 +113,8 @@ fun EmployerSearchScreen(
                                         .size(50.dp)
                                 )
                             }
+
+
                         }
                     }
                 }
