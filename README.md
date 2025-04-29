@@ -16,66 +16,47 @@ This application allows users to search for employers. It's built with a focus o
 *   **Kotlin Coroutines:** Asynchronous operations are handled using Kotlin Coroutines and Flow.
 *   **Error Handling:** Robust error handling for network and other potential issues.
 
-## Architecture
-
-The app follows a Clean Architecture approach, which divides the app into distinct layers with well-defined responsibilities. This allows for greater flexibility, maintainability, and testability.
-
-### Layers
+### Architectural Layers and Key Classes
 
 1.  **Presentation Layer (`presentation`)**
 
-    *   **Responsibility:** Handles UI logic, interacts with the user, and displays data.
+    *   **Responsibility:** Handles UI logic, user interactions, and the display of data.
     *   **Components:**
-        *   **Composables:** UI elements built using Jetpack Compose.
-        *   **ViewModels:** Hold UI state and interact with the `Domain Layer`.
-        *   **States:** Data models that represent UI state.
-        * **Navigation:** Handle the navigation between composables.
-    *   **Frameworks:** Jetpack Compose, Hilt (for ViewModel injection), `StateFlow`.
-    *   **Interaction:** `ViewModels` observe `StateFlow` from `UseCases` and update UI state accordingly.
-    *   **Dependencies:** Depends on the `Domain Layer`.
+        *   **Composables (Views):** UI elements built using Jetpack Compose. They receive UI state and emit user events.
+            *   **`EmployerSearchScreen.kt`:** The main screen for displaying the search results and search field.
+                *   **Role:** Renders the UI, displays data, and handles user input.
+                *   **Interaction:** Receives state updates from the `EmployerViewModel` and sends user intents (like search query changes) back to the `EmployerViewModel`.
+            * **`EmployerSearchField.kt`:** A reusable component representing the Search field.
+                * **Role:** Provides the Search Bar user interface and emits user input events.
+                * **Interaction:** receives user input and sends it to the parent composable using the `onQueryChanged` callback
+        *   **ViewModels:** Act as the intermediary between Composables and the Domain Layer. They:
+            *   Hold UI state as `StateFlow`.
+            *   Receive user intents from the UI.
+            *   Interact with Use Cases in the Domain Layer.
+            *   Transform Domain Layer data into UI-specific state.
+            *   **`EmployerViewModel.kt`:**
+                *   **Role:** Holds the state for the `EmployerSearchScreen`. It gets employers from the `GetEmployersUseCase`, updates the state based on the results, and exposes the state to the UI.
+                *   **Interaction:** Receives user intents from `EmployerSearchScreen`, interacts with `GetEmployersUseCase`, updates the `EmployerSearchState` (the UI state), and exposes it as a `StateFlow`.
+        *   **States:** Data models that represent UI state. They are immutable data classes that describe the UI's current state.
+            *   **`EmployerSearchState.kt`:**
+                *   **Role:** Represents the UI state of the `EmployerSearchScreen`. It includes information like loading state, the list of employers, and error messages.
+                *   **Interaction:** `EmployerViewModel` modifies this state, and `EmployerSearchScreen` reads it to update the UI.
+
 2.  **Domain Layer (`domain`)**
 
-    *   **Responsibility:** Contains the core business logic and application rules.
+    *   **Responsibility:** Contains the core business logic and application rules. It's the most inner layer and is completely independent.
     *   **Components:**
-        *   **Entities:** Business objects that represent data.
-        *   **Use Cases:** Define actions that users can perform. They interact with `Repositories`.
-        *   **Repository Interfaces:** Contracts for data access.
-    *   **Frameworks:** None. It is pure Kotlin.
-    *   **Interaction:** `Use Cases` call methods on `Repository` interfaces to interact with the `Data Layer`.
-    *   **Dependencies:** Does not depend on any other layer. It is completely independent.
-3.  **Data Layer (`data`)**
+        *   **Entities:** Business objects that represent data (e.g., `Employer`). These are plain Kotlin data classes, independent of how data is stored or fetched.
+            *   **`Employer.kt`:**
+                *   **Role:** Represents an employer entity. It holds the business logic-relevant data about an employer.
+                *   **Interaction:** Used by `UseCases` to define and manipulate business objects.
+        *   **Use Cases:** Define actions that users can perform (e.g., `GetEmployersUseCase`). They represent a single unit of business logic.
+            *   **`GetEmployersUseCase.kt`:**
+                *   **Role:** Defines the action of getting a list of employers. It handles business logic for that specific task.
+                *   **Interaction:** Calls methods on `EmployerRepository` to get data, applies any necessary business rules, and returns the result to the caller (typically a ViewModel).
 
-    *   **Responsibility:** Handles data access, whether it's from the network, a local database, or other sources.
-    *   **Components:**
-        *   **Data Models:** Data transfer objects (DTOs) used to represent data from external sources.
-        *   **Repositories:** Implement the `Repository` interfaces defined in the `Domain Layer`. They fetch, transform, and provide data to the `Domain Layer`.
-        *   **Remote Data Sources:** Handle communication with APIs.
-    *   **Frameworks:** Retrofit (for network), potentially Room (for local storage, if implemented).
-    *   **Interaction:** `Repositories` access `Data Sources` to get data. They transform this data into `Domain` entities before passing it to the `Domain Layer`.
-    *   **Dependencies:** Does not depend on `Presentation` or `Domain Layer`.
-
-### Dependency Direction
-
-The dependency direction flows inward:
-
-*   The `Presentation Layer` depends on the `Domain Layer`.
-*   The `Domain Layer` is independent.
-*   The `Data Layer` is independent of the `Domain Layer`.
-
-## Dependency Injection with Hilt
-
-*   Hilt is used to manage dependencies throughout the application.
-*   `@HiltAndroidApp`: Annotates the `Application` class to enable Hilt.
-*   `@AndroidEntryPoint`: Annotates activities and fragments where you want to inject dependencies.
-*   `@HiltViewModel`: Annotates `ViewModels` for injection.
-*   `@Inject`: Used in constructors to request dependencies.
-
-## State Management
-
-*   **`StateFlow`:** Used in `ViewModels` to expose a stream of data to the UI.
-*   **`MutableStateFlow`:** Used internally within `ViewModels` to manage the state.
-
-## Asynchronous Operations
-
-*   **Kotlin Coroutines:** Used for asynchronous operations, such as network requests.
-*   **Flow:** Used to represent a stream of data over time.
+    **DataLayer (`data`)**
+        *   **Repository Interfaces:** Contracts for data access (e.g., `EmployerRepository`). They define *what* data operations can be performed, not *how* they are implemented.
+            *   **`EmployerRepository.kt`:**
+            *   **Role:** Defines the contract for employer data access. It specifies operations like `getEmployers()`.
+            *   **Interaction:** Use Cases interact with this interface. `EmployerRepositoryImpl` (in the Data Layer) implements this interface.
