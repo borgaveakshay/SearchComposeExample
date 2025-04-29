@@ -20,7 +20,7 @@ fun EmployersList(employersList: List<EmployerInfo>, onEmployerInfoClick: (Emplo
             .fillMaxWidth()
             .wrapContentHeight()
     ) {
-        LazyColumn() {
+        LazyColumn {
             items(items = employersList, key = { item -> item.companyName }) {
                 EmployerInfoItem(it) { employerInfo ->
                     onEmployerInfoClick(employerInfo)

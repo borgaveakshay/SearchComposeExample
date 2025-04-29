@@ -113,8 +113,6 @@ fun EmployerSearchScreen(
                                         .size(50.dp)
                                 )
                             }
-
-
                         }
                     }
                 }
