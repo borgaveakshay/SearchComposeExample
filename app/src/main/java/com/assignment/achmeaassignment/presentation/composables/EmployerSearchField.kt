@@ -70,7 +70,7 @@ fun EmployerSearchField(onQueryChanged: (String) -> Unit) {
     }
     LaunchedEffect(searchQuery.value) {
         if (searchQuery.value.isNotBlank()) {
-            delay(1000)
+            delay(300)
             onQueryChanged(searchQuery.value)
         }
     }
