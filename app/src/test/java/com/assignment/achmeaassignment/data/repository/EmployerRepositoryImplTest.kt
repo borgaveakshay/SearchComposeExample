@@ -29,8 +29,7 @@ class EmployerRepositoryImplTest {
         val successResponse = successfulNetworkResponse.toEmployerInfo()
         coEvery {
             employersService.getEmployers(
-                searchQuery = givenSearchQuery,
-                maxRows = 100
+                searchQuery = givenSearchQuery, maxRows = 100
             )
         } returns successfulNetworkResponse
         // WHEN
@@ -38,12 +37,10 @@ class EmployerRepositoryImplTest {
 
         // THEN
         result.collect { response ->
-
             when {
                 response is ResultResource.Success -> {
                     assert(response.data == successResponse)
                 }
-
             }
         }
     }
@@ -74,8 +71,7 @@ class EmployerRepositoryImplTest {
         val expectedError = Throwable(givenErrorMessage)
         coEvery {
             employersService.getEmployers(
-                searchQuery = givenSearchQuery,
-                maxRows = 100
+                searchQuery = givenSearchQuery, maxRows = 100
             )
         } throws expectedError
         // WHEN
