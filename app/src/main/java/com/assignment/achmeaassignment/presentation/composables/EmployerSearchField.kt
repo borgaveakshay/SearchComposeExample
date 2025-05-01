@@ -16,18 +16,20 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.compose.AppTheme
+import kotlinx.coroutines.delay
 
 @Composable
 fun EmployerSearchField(onQueryChanged: (String) -> Unit) {
-    val searchQuery = rememberSaveable { mutableStateOf("") }
+    val searchQuery = remember { mutableStateOf<String>("") }
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -46,7 +48,6 @@ fun EmployerSearchField(onQueryChanged: (String) -> Unit) {
             value = searchQuery.value,
             onValueChange = {
                 searchQuery.value = it
-                onQueryChanged(searchQuery.value)
             },
             label = { Text("Search Employers") },
             modifier = Modifier.fillMaxWidth(),
@@ -66,6 +67,12 @@ fun EmployerSearchField(onQueryChanged: (String) -> Unit) {
                 cursorColor = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         )
+    }
+    LaunchedEffect(searchQuery.value) {
+        if (searchQuery.value.isNotBlank()) {
+            delay(1000)
+            onQueryChanged(searchQuery.value)
+        }
     }
 }
 

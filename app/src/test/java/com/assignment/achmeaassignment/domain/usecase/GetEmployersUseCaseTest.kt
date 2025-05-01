@@ -69,7 +69,7 @@ class GetEmployersUseCaseTest {
         // GIVEN
         val givenSearchQuery = "am"
         coEvery { repository.getSearchedEmployers(givenSearchQuery) } returns flow {
-            ResultResource.Loading<List<EmployerInfo>>(isLoading = true)
+            ResultResource.Loading<List<EmployerInfo>>()
         }
         // WHEN
         val result = getEmployersUseCase(givenSearchQuery)
@@ -80,7 +80,6 @@ class GetEmployersUseCaseTest {
                 assert(this is ResultResource.Loading)
                 assert(data == null)
                 assert(errorMessage == null)
-                assert(isLoading)
             }
         }
     }

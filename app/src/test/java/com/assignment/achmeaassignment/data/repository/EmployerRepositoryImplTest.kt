@@ -63,7 +63,6 @@ class EmployerRepositoryImplTest {
             response.apply {
                 assert(this is ResultResource.Error)
                 assert(data == null)
-                assert(!isLoading)
                 assert(errorMessage == givenErrorMessage)
             }
         }

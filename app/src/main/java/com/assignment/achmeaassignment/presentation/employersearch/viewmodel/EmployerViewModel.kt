@@ -27,7 +27,7 @@ class EmployerViewModel @Inject constructor(
                     employerSearchStateFlow.update {
                         it.copy(
                             isError = true,
-                            errorMessage = response.errorMessage,
+                            errorMessage = response.errorMessage ?: "Something went wrong",
                             data = null,
                             isLoading = false
                         )

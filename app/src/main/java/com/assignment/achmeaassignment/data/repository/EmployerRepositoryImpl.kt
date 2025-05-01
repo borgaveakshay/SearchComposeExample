@@ -8,13 +8,11 @@ import com.assignment.achmeaassignment.domain.EmployersRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
-import javax.inject.Inject
 
 @OptIn(FlowPreview::class)
-class EmployerRepositoryImpl @Inject constructor(
+class EmployerRepositoryImpl(
     private val employersService: EmployersService
 ) : EmployersRepository {
 
@@ -30,9 +28,9 @@ class EmployerRepositoryImpl @Inject constructor(
                 )
             )
         }.onStart {
-            emit(ResultResource.Loading(isLoading = true))
+            emit(ResultResource.Loading())
         }.catch { exception ->
             emit(ResultResource.Error(exception = exception))
-        }.debounce(1000L)
+        }
 
 }
