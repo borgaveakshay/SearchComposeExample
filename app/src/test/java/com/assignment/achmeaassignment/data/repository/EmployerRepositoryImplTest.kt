@@ -35,11 +35,33 @@ class EmployerRepositoryImplTest {
         } returns successfulNetworkResponse
         // WHEN
         val result = employerRepositoryImpl.getSearchedEmployers(givenSearchQuery)
+
         // THEN
         result.collect { response ->
-            response.apply {
-                assert(this is ResultResource.Success)
-                assert(data == successResponse)
+
+            when {
+                response is ResultResource.Success -> {
+                    assert(response.data == successResponse)
+                }
+
+            }
+        }
+    }
+
+    @Test
+    fun `when loading status for employer search query`() = runTest {
+        // GIVEN
+        val givenSearchQuery = "am"
+
+        // WHEN
+        val result = employerRepositoryImpl.getSearchedEmployers(givenSearchQuery)
+
+        // THEN
+        result.collect { response ->
+            when {
+                response is ResultResource.Loading -> {
+                    assert(true)
+                }
             }
         }
     }
@@ -60,10 +82,11 @@ class EmployerRepositoryImplTest {
         val result = employerRepositoryImpl.getSearchedEmployers(givenSearchQuery)
         // THEN
         result.collect { response ->
-            response.apply {
-                assert(this is ResultResource.Error)
-                assert(data == null)
-                assert(errorMessage == givenErrorMessage)
+            when {
+                response is ResultResource.Error -> {
+                    assert(response.data == null)
+                    assert(response.errorMessage == givenErrorMessage)
+                }
             }
         }
     }

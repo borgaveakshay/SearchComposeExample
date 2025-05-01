@@ -31,7 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.assignment.achmeaassignment.domain.EmployerInfo
+import com.assignment.achmeaassignment.domain.entities.EmployerInfo
 import com.example.compose.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -3,8 +3,8 @@ package com.assignment.achmeaassignment.data.repository
 import com.assignment.achmeaassignment.data.common.ResultResource
 import com.assignment.achmeaassignment.data.response.toEmployerInfo
 import com.assignment.achmeaassignment.data.service.EmployersService
-import com.assignment.achmeaassignment.domain.EmployerInfo
-import com.assignment.achmeaassignment.domain.EmployersRepository
+import com.assignment.achmeaassignment.domain.entities.EmployerInfo
+import com.assignment.achmeaassignment.domain.repositories.EmployersRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

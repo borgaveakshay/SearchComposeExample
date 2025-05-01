@@ -1,6 +1,6 @@
 package com.assignment.achmeaassignment.presentation.employersearch.states
 
-import com.assignment.achmeaassignment.domain.EmployerInfo
+import com.assignment.achmeaassignment.domain.entities.EmployerInfo
 
 data class EmployerSearchState(
     val isLoading: Boolean = false,

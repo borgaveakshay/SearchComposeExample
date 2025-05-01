@@ -1,8 +1,8 @@
 package com.assignment.achmeaassignment.presentation.employersearch.viewmodel
 
 import com.assignment.achmeaassignment.data.common.ResultResource
-import com.assignment.achmeaassignment.domain.EmployerInfo
-import com.assignment.achmeaassignment.domain.EmployersRepository
+import com.assignment.achmeaassignment.domain.entities.EmployerInfo
+import com.assignment.achmeaassignment.domain.repositories.EmployersRepository
 import com.assignment.achmeaassignment.domain.usecase.GetEmployersUseCase
 import com.assignment.achmeaassignment.utils.getMockData
 import io.mockk.coEvery
@@ -56,10 +56,10 @@ class EmployerViewModelTest {
         // GIVEN
         val givenSearchQuery = "am"
         coEvery { employerRepository.getSearchedEmployers(givenSearchQuery) } returns flow {
-            ResultResource.Loading<List<EmployerInfo>>(isLoading = true)
+            ResultResource.Loading<List<EmployerInfo>>()
         }
         coEvery { getEmployersUseCase(givenSearchQuery) } returns flow {
-            emit(ResultResource.Loading<List<EmployerInfo>>(isLoading = true))
+            emit(ResultResource.Loading<List<EmployerInfo>>())
         }
         // WHEN
         employerViewModel.searchEmployers(givenSearchQuery)

@@ -1,4 +1,4 @@
-package com.assignment.achmeaassignment.domain
+package com.assignment.achmeaassignment.domain.entities
 
 import androidx.compose.runtime.Stable
 

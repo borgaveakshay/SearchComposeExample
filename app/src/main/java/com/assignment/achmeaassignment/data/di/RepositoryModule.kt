@@ -2,7 +2,7 @@ package com.assignment.achmeaassignment.data.di
 
 import com.assignment.achmeaassignment.data.repository.EmployerRepositoryImpl
 import com.assignment.achmeaassignment.data.service.EmployersService
-import com.assignment.achmeaassignment.domain.EmployersRepository
+import com.assignment.achmeaassignment.domain.repositories.EmployersRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

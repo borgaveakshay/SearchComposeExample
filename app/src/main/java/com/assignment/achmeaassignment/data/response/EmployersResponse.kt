@@ -1,7 +1,7 @@
 package com.assignment.achmeaassignment.data.response
 
 
-import com.assignment.achmeaassignment.domain.EmployerInfo
+import com.assignment.achmeaassignment.domain.entities.EmployerInfo
 
 class EmployersResponse : ArrayList<EmployersResponseItem>()
 

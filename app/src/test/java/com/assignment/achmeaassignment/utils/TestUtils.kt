@@ -2,7 +2,7 @@ package com.assignment.achmeaassignment.utils
 
 import com.assignment.achmeaassignment.data.response.EmployersResponse
 import com.assignment.achmeaassignment.data.response.toEmployerInfo
-import com.assignment.achmeaassignment.domain.EmployerInfo
+import com.assignment.achmeaassignment.domain.entities.EmployerInfo
 import com.google.gson.Gson
 
 private const val mockJsonResponse = "[\n" +
